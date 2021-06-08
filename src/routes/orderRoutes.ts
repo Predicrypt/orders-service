@@ -8,8 +8,8 @@ import {
 
 const router = Router();
 
-router.post('/orders/spot', requireAuth, makeOrder);
-router.delete('/orders/spot', requireAuth, cancelOrder);
-router.get('/orders/spot', requireAuth, getActiveOrders);
+router.post('/api/orders/spot', requireAuth, makeOrder);
+router.delete('/api/orders/spot', requireAuth, cancelOrder);
+router.get('/api/orders/spot', requireAuth, getActiveOrders);
 
 export { router as ordersRoute };

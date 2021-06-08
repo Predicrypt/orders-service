@@ -22,7 +22,6 @@ const start = async () => {
   }
 
   if (!process.env.NATS_CLUSTER_ID) {
-    
     LOGGER.warn('No DATABASE_URI env variable');
     process.exit();
   }
@@ -49,7 +48,6 @@ const start = async () => {
     LOGGER.error(err);
   }
 
-  const PORT = process.env.PORT || 3000;
   const DB = process.env.DATABASE_URI!;
 
   mongoose
@@ -62,10 +60,9 @@ const start = async () => {
     .then(() => {
       console.log('DB connection successfull');
     });
-
-  app.listen(PORT, () => {
-    console.info(`Listening on port ${PORT}...`);
-  });
 };
-
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.info(`Listening on port ${PORT}...`);
+});
 start();
