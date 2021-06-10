@@ -14,7 +14,7 @@ import {
   NewMarketOrderRquest,
   OpenOrdersRequest,
 } from '@Predicrypt/common/build/binance/interfaces/SpotTrade';
-import { Request, response, Response } from 'express';
+import { Request, Response } from 'express';
 import User, { UserDoc } from '../models/userModel';
 
 export const makeOrder = async (req: Request, res: Response) => {
@@ -27,9 +27,10 @@ export const makeOrder = async (req: Request, res: Response) => {
     timestamp: Date.now(),
   };
 
-  const user: UserDoc = await User.findByUserId(req.currentUser?.id!);
+  const user: UserDoc = await User.findOne({userId: req.currentUser?.id!});
   checkApiKey(user);
-
+  console.log(user);
+  console.log(spotRequest)
   if (user) {
     const client = new BinanceClient(user.apiKey, user.secretKey);
     let response;
@@ -45,6 +46,8 @@ export const makeOrder = async (req: Request, res: Response) => {
         spotRequest as NewMarketOrderRquest
       );
     }
+
+    console.log(response)
     if (response && response.data.clientOrderId) {
       res.status(201).send(response.data);
     } else {
@@ -62,7 +65,7 @@ export const cancelOrder = async (req: Request, res: Response) => {
     timestamp: Date.now(),
   };
 
-  const user: UserDoc = await User.findByUserId(req.currentUser?.id!);
+  const user: UserDoc = await User.findOne({userId: req.currentUser?.id!});
   checkApiKey(user);
 
   if (user) {
@@ -86,7 +89,7 @@ export const getActiveOrders = async (req: Request, res: Response) => {
     openOrderRequest.symbol = req.params.symbol;
   }
 
-  const user: UserDoc = await User.findByUserId(req.currentUser?.id!);
+  const user: UserDoc = await User.findOne({userId: req.currentUser?.id!});
   checkApiKey(user);
   if (user) {
     const client = new BinanceClient(user.apiKey, user.secretKey);

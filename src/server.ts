@@ -4,6 +4,7 @@ import winston from 'winston';
 import dotenv from 'dotenv';
 import { UserRegisteredListener } from './events/listeners/UserRegisteredListener';
 import { natsWrapper } from './natsWrapper';
+import { KeysRegisteredListener } from './events/listeners/KeysUpdatedListener';
 
 dotenv.config({ path: './config.env' });
 const LOGGER = winston.createLogger({
@@ -44,6 +45,7 @@ const start = async () => {
     );
 
     new UserRegisteredListener(natsWrapper.client).listen();
+    new KeysRegisteredListener(natsWrapper.client).listen();
   } catch (err) {
     LOGGER.error(err);
   }

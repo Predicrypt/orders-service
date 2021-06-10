@@ -20,7 +20,7 @@ app.use(
     sameSite: 'none',
   })
 );
-app.use(errorHandler);
+
 app.use(currentUser);
 app.use(ordersRoute);
 
@@ -28,4 +28,5 @@ if (process.env.NODE_ENV === 'dev') {
   app.use(morgan('dev'));
 }
 
+app.use(errorHandler);
 export default app;
